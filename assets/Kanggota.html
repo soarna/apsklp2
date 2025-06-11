@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIKOM - Sistem Kegiatan dan Organisasi Mahasiswa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #667eea;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-bar {
+            background: #667eea;
+            padding: 15px 30px;
+            display: flex;
+            gap: 50px;
+        }
+
+        .nav-item {
+            display: inline-block; 
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: opacity 0.3s, background-color 0.3s;
+            padding: 8px 16px; 
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            opacity: 1;
+            background-color: #5468c2;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .info-section h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .info-section p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .filter-section {
+            background: #e5e7eb;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .filter-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .filter-input {
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            padding: 0.5rem;
+        }
+
+        .filter-select {
+            border: none;
+            background: transparent;
+            font-size: 1rem;
+            color: #333;
+            outline: none;
+            padding: 0.5rem;
+        }
+
+        .activities-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .activity-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-info {
+            flex: 1;
+        }
+
+        .activity-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .activity-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .activity-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .activity-location {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .activity-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .register-btn {
+            background: #4ade80;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .register-btn:hover {
+            background: #22c55e;
+        }
+
+        .collapse-btn {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+            margin-left: 1rem;
+        }
+
+        .activity-expanded {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            display: none;
+        }
+
+        .activity-expanded.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .nav-bar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .activity-card {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">M</div>
+            <div class="user-details">
+                <h3>Mari Andari</h3>
+                <p>Anggota</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="dashboardanggota.html" class="nav-item">Home</a>
+        <a href="diskusianggota.html" class="nav-item">Forum Diskusi</a>
+        <a href="#" class="nav-item active">Daftar Kegiatan</a>
+        <a href="Dokum.html" class="nav-item">Dokumentasi</a>
+    </div>
+
+    <div class="container">
+        <div class="info-section">
+            <h2>Info Kegiatan</h2>
+            <p>Temukan dan lihat detail kegiatan yang tersedia</p>
+        </div>
+
+        <div class="filter-section">
+            <div class="filter-item">
+                <span class="filter-icon">🔍</span>
+                <input type="text" placeholder="Cari Kegiatan" class="filter-input">
+            </div>
+            <div class="filter-item">
+                <span class="filter-icon">🏷️</span>
+                <select class="filter-select">
+                    <option>Semua Jenis</option>
+                    <option>Workshop</option>
+                    <option>Pelatihan</option>
+                    <option>Rapat</option>
+                </select>
+            </div>
+        </div>
+
+        <h3 class="activities-title">Daftar Kegiatan</h3>
+
+        <div class="activity-card">
+            <div class="activity-info">
+                <div class="activity-meta">
+                    <span>📅 Senin, 10 Juni 2024</span>
+                    <span>🕘 09:00 WIB</span>
+                </div>
+                <div class="activity-title">Rapat tim mingguan</div>
+                <div class="activity-location">📍 Ruang Konferensi A</div>
+                <div class="activity-description">
+                    Rapat koordinasi tim untuk membahas progress proyek dan planning minggu depan
+                </div>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <button class="register-btn">Daftar</button>
+                <button class="collapse-btn" onclick="toggleExpand(this)">−</button>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <div class="activity-info">
+                <div class="activity-meta">
+                    <span>📅 Rabu, 12 Juni 2024</span>
+                    <span>🕐 14:00 WIB</span>
+                </div>
+                <div class="activity-title">Workshop UI/UX Design</div>
+                <div class="activity-location">📍 Lab Komputer 2</div>
+                <div class="activity-description">
+                    Workshop mengenai prinsip-prinsip dasar UI/UX design untuk aplikasi mobile dan web
+                </div>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <button class="register-btn">Daftar</button>
+                <button class="collapse-btn" onclick="toggleExpand(this)">−</button>
+            </div>
+        </div>
+
+        <div class="activity-card">
+            <div class="activity-info">
+                <div class="activity-meta">
+                    <span>📅 Sabtu, 15 Juni 2024</span>
+                    <span>🕙 10:00 WIB</span>
+                </div>
+                <div class="activity-title">Pelatihan Public Speaking</div>
+                <div class="activity-location">📍 Aula utama</div>
+                <div class="activity-description">
+                    Pelatihan untuk meningkatkan kemampuan berbicara di depan umum dan presentasi
+                </div>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <button class="register-btn">Daftar</button>
+                <button class="collapse-btn" onclick="toggleExpand(this)">−</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleExpand(button) {
+            const card = button.closest('.activity-card');
+            const expanded = card.querySelector('.activity-expanded');
+            
+            if (expanded) {
+                if (expanded.classList.contains('show')) {
+                    expanded.classList.remove('show');
+                    button.textContent = '−';
+                } else {
+                    expanded.classList.add('show');
+                    button.textContent = '+';
+                }
+            } else {
+                button.textContent = button.textContent === '−' ? '+' : '−';
+            }
+        }
+
+        function logout() {
+            // Remove any stored login data
+            if (typeof(Storage) !== "undefined") {
+                localStorage.removeItem("loggedInRole");
+            }
+            // Redirect to login page
+            window.location.href = "index.html";
+        }
+
+        // Search functionality
+        document.querySelector('.filter-input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.activity-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.activity-title').textContent.toLowerCase();
+                const description = card.querySelector('.activity-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        document.querySelector('.filter-select').addEventListener('change', function(e) {
+            const filterValue = e.target.value;
+            const cards = document.querySelectorAll('.activity-card');
+            
+            cards.forEach(card => {
+                const title = card.querySelector('.activity-title').textContent;
+                
+                if (filterValue === 'Semua Jenis') {
+                    card.style.display = 'flex';
+                } else if (title.toLowerCase().includes(filterValue.toLowerCase())) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

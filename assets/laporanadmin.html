@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Rekap Laporan Tahunan - SIKOM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+  	font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+ .header {
+            background-color: #667eea;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-bar {
+            background: #667eea;
+            padding: 15px 30px;
+            display: flex;
+            gap: 50px;
+        }
+
+.nav-item {
+    display: inline-block; 
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: opacity 0.3s, background-color 0.3s;
+    padding: 8px 16px; 
+}
+
+.nav-item:hover,
+.nav-item.active {
+    opacity: 1;
+    background-color: #5468c2;
+}
+
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .year-selector {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .year-selector select {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            background-color: white;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .stat-card .icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card h3 {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .stat-card .number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .label {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .chart-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .chart-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .chart {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+
+        .chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .summary-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .summary-section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .summary-section p {
+            font-size: 16px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        .btn {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 0 5px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #5a6fd8;
+        }
+
+        .btn-secondary {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title h1 {
+                font-size: 24px;
+            }
+            
+            .container {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">A</div>
+            <div class="user-details">
+                <h3>Ahmad Adi Pratama</h3>
+                <p>Admin</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="dashboardadmin.html" class="nav-item active">Home</a>
+        <a href="Pengurus.html" class="nav-item">Pengurus</a>
+        <a href="Pengguna.html" class="nav-item">Pengguna</a>
+    </div>
+<a href="dashboardadmin.html"><h3> Kembali ke dashboard </h3></a>
+    <div class="container">
+        <div class="page-title">
+            <h1>Rekap Laporan Tahunan</h1>
+            <p>Ringkasan lengkap aktivitas SIKOM tahun 2025</p>
+        </div>
+
+        <div class="year-selector">
+            <select id="yearSelect" onchange="updateYear()">
+                <option value="2025">Tahun 2025</option>
+                <option value="2024">Tahun 2024</option>
+                <option value="2023">Tahun 2023</option>
+            </select>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Anggota Tahun Ini</h3>
+                <div class="number" id="totalMembers">58</div>
+                <div class="label">Anggota Aktif</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Pengurus Tahun Ini</h3>
+                <div class="number" id="totalOfficers">12</div>
+                <div class="label">Pengurus Aktif</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>Total Kegiatan Tahun Ini</h3>
+                <div class="number" id="totalActivities">42</div>
+                <div class="label">Kegiatan Terlaksana</div>
+            </div>
+
+            <div class="stat-card">
+		
+                <h3>Rata-rata Latensi Server</h3>
+                <div class="number" id="avgLatency">67</div>
+                <div class="label">ms (Sangat Baik)</div>
+            </div>
+        </div>
+        <div class="chart-section">
+            <div class="chart-title">Tren Latensi Server Tahunan (ms)</div>
+            <div class="chart">
+                <svg width="100%" height="300" viewBox="0 0 800 300">
+                    <!-- Grid lines -->
+                    <defs>
+                        <pattern id="grid" width="80" height="30" patternUnits="userSpaceOnUse">
+                            <path d="M 80 0 L 0 0 0 30" fill="none" stroke="#f0f0f0" stroke-width="1"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                    
+                    <!-- Chart line -->
+                    <polyline points="80,180 160,150 240,120 320,140 400,110 480,95 560,105 640,85 720,90" 
+                             fill="none" stroke="#667eea" stroke-width="4"/>
+                    
+                    <!-- Data points -->
+                    <circle cx="80" cy="180" r="6" fill="#667eea"/>
+                    <circle cx="160" cy="150" r="6" fill="#667eea"/>
+                    <circle cx="240" cy="120" r="6" fill="#667eea"/>
+                    <circle cx="320" cy="140" r="6" fill="#667eea"/>
+                    <circle cx="400" cy="110" r="6" fill="#667eea"/>
+                    <circle cx="480" cy="95" r="6" fill="#667eea"/>
+                    <circle cx="560" cy="105" r="6" fill="#667eea"/>
+                    <circle cx="640" cy="85" r="6" fill="#667eea"/>
+                    <circle cx="720" cy="90" r="6" fill="#667eea"/>
+                    
+                    <!-- Month labels -->
+                    <text x="80" y="290" text-anchor="middle" font-size="12" fill="#666">Jan</text>
+                    <text x="160" y="290" text-anchor="middle" font-size="12" fill="#666">Feb</text>
+                    <text x="240" y="290" text-anchor="middle" font-size="12" fill="#666">Mar</text>
+                    <text x="320" y="290" text-anchor="middle" font-size="12" fill="#666">Apr</text>
+                    <text x="400" y="290" text-anchor="middle" font-size="12" fill="#666">Mei</text>
+                    <text x="480" y="290" text-anchor="middle" font-size="12" fill="#666">Jun</text>
+                    <text x="560" y="290" text-anchor="middle" font-size="12" fill="#666">Jul</text>
+                    <text x="640" y="290" text-anchor="middle" font-size="12" fill="#666">Agu</text>
+                    <text x="720" y="290" text-anchor="middle" font-size="12" fill="#666">Sep</text>
+                </svg>
+            </div>
+            <p style="text-align: center; color: #666; font-size: 14px;">
+                *Data menunjukkan performa server yang stabil sepanjang tahun dengan rata-rata latensi 67ms
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+
+        const yearData = {
+            2025: {
+                members: 58,
+                officers: 12,
+                activities: 42,
+                latency: 67
+            },
+            2024: {
+                members: 73,
+                officers: 12,
+                activities: 38,
+                latency: 72
+            },
+            2023: {
+                members: 39,
+                officers: 10,
+                activities: 31,
+                latency: 78
+            }
+        };
+
+        function updateYear() {
+            const selectedYear = document.getElementById('yearSelect').value;
+            const data = yearData[selectedYear];
+            
+            document.getElementById('totalMembers').textContent = data.members;
+            document.getElementById('totalOfficers').textContent = data.officers;
+            document.getElementById('totalActivities').textContent = data.activities;
+            document.getElementById('avgLatency').textContent = data.latency;
+            
+            document.querySelector('.chart-title').textContent = `Tren Latensi Server Tahunan ${selectedYear} (ms)`;
+        }
+
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                window.location.href = "../index.html";
+            }
+        }
+
+        function animateCounters() {
+            const counters = document.querySelectorAll('.number');
+            counters.forEach(counter => {
+                const target = parseInt(counter.textContent);
+                const increment = target / 50;
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        counter.textContent = target;
+                        clearInterval(timer);
+                    } else {
+                        counter.textContent = Math.floor(current);
+                    }
+                }, 30);
+            });
+        }
+
+        window.addEventListener('load', animateCounters);
+    </script>
+</body>
+</html>

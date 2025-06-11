@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>SIKOM Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>SIKOM Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <select id="role" required>
+                        <option value="">Pilih akses (hanya prototype)</option>
+                        <option value="admin">Admin</option>
+                        <option value="anggota">Anggota</option>
+                        <option value="pengurus">Pengurus</option>
+                    </select>
+                </div>
+                <br>
+                <center><a href="assets/daftar.html" class="daftar">Daftar jadi anggota</a></center>
+                <br>
+                <button type="submit" class="login-btn">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const role = document.getElementById('role').value;
+            if (role) {
+                localStorage.setItem("loggedInRole", role);
+                if (role === "admin") window.location.href = "assets/dashboardadmin.html";
+                else if (role === "anggota") window.location.href = "assets/dashboardanggota.html";
+                else if (role === "pengurus") window.location.href = "assets/dashboardpengurus.html";
+            }
+        });
+    </script>
+</body>
+</html>

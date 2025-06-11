@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verifikasi Pendaftaran - SIKOM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+                        font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #667eea;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-bar {
+            background: #667eea;
+            padding: 15px 30px;
+            display: flex;
+            gap: 50px;
+        }
+
+.nav-item {
+    display: inline-block; 
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: opacity 0.3s, background-color 0.3s;
+    padding: 8px 16px; 
+}
+
+.nav-item:hover,
+.nav-item.active {
+    opacity: 1;
+    background-color: #5468c2;
+}
+
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.7);
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .verification-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        .applicant-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .applicant-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .applicant-info h3 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 8px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            margin-right: 8px;
+            min-width: 60px;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-waiting {
+            background: #ffa502;
+            color: white;
+        }
+
+        .btn-waiting:hover {
+            background: #ff9500;
+            transform: translateY(-1px);
+        }
+
+        .btn-accept {
+            background: #2ed573;
+            color: white;
+        }
+
+        .btn-accept:hover {
+            background: #26d467;
+            transform: translateY(-1px);
+        }
+
+        .btn-reject {
+            background: #ff4757;
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background: #ff3742;
+            transform: translateY(-1px);
+        }
+
+        .bottom-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .bottom-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .bottom-subtitle {
+            color: #666;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-bar {
+                padding: 0 20px;
+                flex-wrap: wrap;
+            }
+
+            .nav-item {
+                padding: 15px 20px;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">G</div>
+            <div class="user-details">
+                <h3>Gandhi P.</h3>
+                <p>Pengurus</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="dashboardpengurus.html" class="nav-item">Home</a>
+        <a href="diskusipengurus.html" class="nav-item">Forum Diskusi</a>
+        <a href="Kpengurus.html" class="nav-item">Kegiatan</a>
+        <a href="Dokumentasi.html" class="nav-item">Laporan</a>
+        <a href="keuangan.html" class="nav-item">Keuangan</a>
+        <a href="#" class="nav-item active">Anggota</a>
+    </div>
+<br>
+    <div class="main-content">
+        <div class="content-header">
+            <div class="tabs">
+                <button class="tab-btn">Mengelola Anggota</button>
+                <button class="tab-btn active">Verifikasi Pendaftaran</button>
+            </div>
+        </div>
+
+        <div class="verification-section">
+            <h2 class="section-title">Menunggu Verifikasi</h2>
+            
+            <div class="applicant-card">
+                <div class="applicant-info">
+                    <h3>Maya Ananda</h3>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <span class="info-label">NIM:</span>
+                            <span class="info-value">223465</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Prodi:</span>
+                            <span class="info-value">Sistem Informasi</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tanggal:</span>
+                            <span class="info-value">28 Mei 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-waiting">Menunggu</button>
+                    <button class="btn btn-accept" onclick="acceptApplicant('Maya Ananda')">Terima</button>
+                    <button class="btn btn-reject" onclick="rejectApplicant('Maya Ananda')">Tolak</button>
+                </div>
+            </div>
+
+            <div class="applicant-card">
+                <div class="applicant-info">
+                    <h3>Fajar Antara</h3>
+                    <div class="info-row">
+                        <div class="info-item">
+                            <span class="info-label">NIM:</span>
+                            <span class="info-value">235648</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Prodi:</span>
+                            <span class="info-value">Sistem Informasi</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Tanggal:</span>
+                            <span class="info-value">23 Mei 2025</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="btn btn-waiting">Menunggu</button>
+                    <button class="btn btn-accept" onclick="acceptApplicant('Fajar Antara')">Terima</button>
+                    <button class="btn btn-reject" onclick="rejectApplicant('Fajar Antara')">Tolak</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-section">
+            <h2 class="bottom-title">Pilih Pendaftaran untuk Verifikasi</h2>
+            <p class="bottom-subtitle">Klik salah satu pendaftaran di sebelah kiri untuk melihat detail</p>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            if (confirm('Apakah Anda yakin ingin logout?')) {
+                window.location.href = "../index.html";
+            }
+        }
+
+        function acceptApplicant(name) {
+            if (confirm(`Apakah Anda yakin ingin menerima pendaftaran ${name}?`)) {
+                alert(`Pendaftaran ${name} telah diterima!`);
+               
+                location.reload();
+            }
+        }
+
+        function rejectApplicant(name) {
+            if (confirm(`Apakah Anda yakin ingin menolak pendaftaran ${name}?`)) {
+                alert(`Pendaftaran ${name} telah ditolak!`);
+               
+                location.reload();
+            }
+        }
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                if (this.textContent.includes('Mengelola Anggota')) {
+                }
+            });
+        });
+
+        document.querySelectorAll('.applicant-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.95)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.background = 'rgba(255, 255, 255, 0.8)';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum Diskusi</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+        }
+        .header {
+            background-color: #667eea;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+                .nav-bar {
+            background: #667eea;
+            padding: 15px 30px;
+            display: flex;
+            gap: 50px;
+        }
+
+.nav-item {
+    display: inline-block; 
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: opacity 0.3s, background-color 0.3s;
+    padding: 8px 16px; 
+}
+
+.nav-item:hover,
+.nav-item.active {
+    opacity: 1;
+    background-color: #5468c2;
+}
+
+        .forum-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .forum-sidebar {
+            width: 300px;
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+
+        .forum-main {
+            flex: 1;
+        }
+
+        .forum-header {
+            margin-bottom: 30px;
+        }
+
+        .forum-header h2 {
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .forum-header p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .forum-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+        }
+
+        .btn-new-topic {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-new-topic:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .topic-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .topic-item {
+            padding: 12px;
+            background: #f8f9ff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .topic-item:hover {
+            background: #e8ebff;
+            border-left-color: #667eea;
+        }
+
+        .topic-item.active {
+            background: #667eea;
+            color: white;
+            border-left-color: #5468c2;
+        }
+
+        .topic-item-title {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .topic-item-meta {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .discussion-view {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            display: none;
+        }
+
+        .discussion-view.active {
+            display: block;
+        }
+
+        .discussion-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .discussion-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .discussion-meta {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .discussion-content {
+            margin-bottom: 25px;
+        }
+
+        .original-post {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 20px;
+        }
+
+        .post-author {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .post-content {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .post-time {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        .comments-section {
+            margin-top: 25px;
+        }
+
+        .comments-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .comment-form {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .comment-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+
+        .comment-submit {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .comment-submit:hover {
+            background: #5468c2;
+        }
+
+        .comments-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .comment-item {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 6px;
+        }
+
+        .comment-content {
+            color: #333;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+
+        .comment-time {
+            font-size: 12px;
+            color: #999;
+        }
+
+        .welcome-message {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .welcome-message h3 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+
+        .welcome-message p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-bar {
+                padding: 0 20px;
+                overflow-x: auto;
+            }
+
+            .forum-container {
+                padding: 20px;
+                flex-direction: column;
+            }
+
+            .forum-sidebar {
+                width: 100%;
+                order: 2;
+            }
+
+            .forum-main {
+                order: 1;
+            }
+
+            .forum-header h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">G</div>
+            <div class="user-details">
+                <h3>Gandhi Pramana</h3>
+                <p>Pengurus (Sekretaris)</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="dashboardpengurus.html" class="nav-item">Home</a>
+        <a href="diskusipengurus.html" class="nav-item active">Forum Diskusi</a>
+        <a href="Kpengurus.html" class="nav-item">Kegiatan</a>
+        <a href="Dokumentasi.html" class="nav-item">Laporan</a>
+        <a href="keuangan.html" class="nav-item">Keuangan</a>
+        <a href="verpendaftar.html" class="nav-item">Anggota</a>
+    </div>
+
+    <div class="forum-container">
+        <div class="forum-sidebar">
+            <h3 class="sidebar-title">Topik Diskusi</h3>
+            <div class="topic-list">
+                <div class="topic-item" data-topic="marketing">
+                    <div class="topic-item-title">Strategi Pemasaran Digital 2025</div>
+                    <div class="topic-item-meta">Dibuat oleh: Admin • Terakhir diupdate: 2 jam lalu</div>
+                </div>
+                <div class="topic-item" data-topic="evaluasi">
+                    <div class="topic-item-title">Evaluasi Kinerja Tim Q1 2025</div>
+                    <div class="topic-item-meta">Dibuat oleh: Ketua UKM • Terakhir diupdate: 1 hari lalu</div>
+                </div>
+                <div class="topic-item" data-topic="event">
+                    <div class="topic-item-title">Rencana Event Tahunan 2025</div>
+                    <div class="topic-item-meta">Dibuat oleh: Sekretaris • Terakhir diupdate: 3 hari lalu</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="forum-main">
+            <div class="forum-header">
+                <h2>Forum Diskusi</h2>
+                <p>Berpartisipasi dalam diskusi organisasi</p>
+            </div>
+
+            <div class="forum-actions">
+                <button class="btn-new-topic">
+                    + Buat Topik Baru
+                </button>
+            </div>
+
+            <div class="welcome-message" id="welcome-message">
+                <h3>Selamat Datang di Forum Diskusi</h3>
+                <p>Pilih salah satu topik di sidebar untuk memulai diskusi</p>
+            </div>
+
+            <!-- Discussion Views -->
+            <div class="discussion-view" id="marketing-discussion">
+                <div class="discussion-header">
+                    <h2 class="discussion-title">Strategi Pemasaran Digital 2025</h2>
+                    <div class="discussion-meta">Dibuat oleh Admin • 15 Mei 2025, 10:30</div>
+                </div>
+                
+                <div class="discussion-content">
+                    <div class="original-post">
+                        <div class="post-author">Admin</div>
+                        <div class="post-content">
+                            Mari kita diskusikan strategi pemasaran digital untuk tahun 2025. Apa saja tren yang perlu kita perhatikan? Saya melihat ada beberapa poin penting seperti AI marketing, personalisasi konten, dan optimasi mobile-first. Bagaimana pendapat kalian mengenai hal ini?
+                        </div>
+                        <div class="post-time">15 Mei 2025, 10:30</div>
+                    </div>
+                </div>
+
+                <div class="comments-section">
+                    <h3 class="comments-title">Kirim Komentar</h3>
+                    <div class="comment-form">
+                        <textarea class="comment-textarea" placeholder="Tulis komentar Anda disini..."></textarea>
+                        <button class="comment-submit">Kirim Komentar</button>
+                    </div>
+
+                    <div class="comments-list">
+                        <div class="comment-item">
+                            <div class="comment-author">Ketua UKM</div>
+                            <div class="comment-content">Setuju dengan poin AI marketing. Saya rasa kita perlu mulai mengintegrasikan chatbot untuk customer service dan lead generation.</div>
+                            <div class="comment-time">15 Mei 2025, 11:15</div>
+                        </div>
+                        <div class="comment-item">
+                            <div class="comment-author">Sekretaris</div>
+                            <div class="comment-content">Untuk mobile-first optimization, mungkin kita perlu audit website kita dulu. Apakah sudah responsive dan loading speednya bagaimana?</div>
+                            <div class="comment-time">15 Mei 2025, 12:45</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="discussion-view" id="evaluasi-discussion">
+                <div class="discussion-header">
+                    <h2 class="discussion-title">Evaluasi Kinerja Tim Q1 2025</h2>
+                    <div class="discussion-meta">Dibuat oleh Ketua UKM • 14 Mei 2025, 14:20</div>
+                </div>
+                
+                <div class="discussion-content">
+                    <div class="original-post">
+                        <div class="post-author">Ketua UKM</div>
+                        <div class="post-content">
+                            Bagaimana pendapat kalian tentang kinerja tim di Q1? Apa yang bisa kita tingkatkan untuk Q2? Berdasarkan data yang saya kumpulkan, ada beberapa area yang perlu kita fokuskan untuk perbaikan.
+                        </div>
+                        <div class="post-time">14 Mei 2025, 14:20</div>
+                    </div>
+                </div>
+
+                <div class="comments-section">
+                    <h3 class="comments-title">Kirim Komentar</h3>
+                    <div class="comment-form">
+                        <textarea class="comment-textarea" placeholder="Tulis komentar Anda disini..."></textarea>
+                        <button class="comment-submit">Kirim Komentar</button>
+                    </div>
+
+                    <div class="comments-list">
+                        <div class="comment-item">
+                            <div class="comment-author">Admin</div>
+                            <div class="comment-content">Menurut saya komunikasi antar divisi perlu diperbaiki. Mungkin kita perlu meeting rutin mingguan?</div>
+                            <div class="comment-time">14 Mei 2025, 15:30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="discussion-view" id="event-discussion">
+                <div class="discussion-header">
+                    <h2 class="discussion-title">Rencana Event Tahunan 2025</h2>
+                    <div class="discussion-meta">Dibuat oleh Sekretaris • 12 Mei 2025, 09:15</div>
+                </div>
+                
+                <div class="discussion-content">
+                    <div class="original-post">
+                        <div class="post-author">Sekretaris</div>
+                        <div class="post-content">
+                            Yuk diskusikan konsep dan timeline untuk event tahunan kita. Ada ide menarik? Saya pikir kita bisa mengangkat tema sustainability dan inovasi teknologi untuk tahun ini.
+                        </div>
+                        <div class="post-time">12 Mei 2025, 09:15</div>
+                    </div>
+                </div>
+
+                <div class="comments-section">
+                    <h3 class="comments-title">Kirim Komentar</h3>
+                    <div class="comment-form">
+                        <textarea class="comment-textarea" placeholder="Tulis komentar Anda disini..."></textarea>
+                        <button class="comment-submit">Kirim Komentar</button>
+                    </div>
+
+                    <div class="comments-list">
+                        <div class="comment-item">
+                            <div class="comment-author">Admin</div>
+                            <div class="comment-content">Ide yang bagus! Mungkin kita bisa mengundang speaker dari startup teknologi hijau?</div>
+                            <div class="comment-time">12 Mei 2025, 10:45</div>
+                        </div>
+                        <div class="comment-item">
+                            <div class="comment-author">Ketua UKM</div>
+                            <div class="comment-content">Setuju dengan tema sustainability. Untuk venue, apakah kita sudah survey beberapa tempat?</div>
+                            <div class="comment-time">12 Mei 2025, 16:20</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            alert('Logout berhasil! Redirecting ke halaman utama...');
+        }
+
+        // Topic selection functionality
+        const topicItems = document.querySelectorAll('.topic-item');
+        const discussionViews = document.querySelectorAll('.discussion-view');
+        const welcomeMessage = document.getElementById('welcome-message');
+
+        topicItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const topicId = this.getAttribute('data-topic');
+                
+                // Remove active class from all topic items
+                topicItems.forEach(t => t.classList.remove('active'));
+                // Add active class to clicked item
+                this.classList.add('active');
+                
+                // Hide welcome message
+                welcomeMessage.style.display = 'none';
+                
+                // Hide all discussion views
+                discussionViews.forEach(view => view.classList.remove('active'));
+                
+                // Show selected discussion view
+                const selectedView = document.getElementById(topicId + '-discussion');
+                if (selectedView) {
+                    selectedView.classList.add('active');
+                }
+            });
+        });
+
+        // New topic button
+        document.querySelector('.btn-new-topic').addEventListener('click', function() {
+            alert('Fitur buat topik baru akan dibuka dalam modal atau halaman terpisah');
+        });
+
+        // Comment submission
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('comment-submit')) {
+                const textarea = e.target.previousElementSibling;
+                const commentText = textarea.value.trim();
+                
+                if (commentText) {
+                    // Create new comment element
+                    const commentsList = e.target.closest('.comments-section').querySelector('.comments-list');
+                    const newComment = document.createElement('div');
+                    newComment.className = 'comment-item';
+                    newComment.innerHTML = `
+                        <div class="comment-author">Mari Andari</div>
+                        <div class="comment-content">${commentText}</div>
+                        <div class="comment-time">Baru saja</div>
+                    `;
+                    
+                    commentsList.appendChild(newComment);
+                    textarea.value = '';
+                    
+                    alert('Komentar berhasil ditambahkan!');
+                } else {
+                    alert('Silakan tulis komentar terlebih dahulu');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

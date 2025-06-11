@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Anggota</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">M</div>
+            <div class="user-details">
+                <h3>Mari Andari</h3>
+                <p>Anggota</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+    <div class="nav-bar">
+        <a href="dashboardanggota.html" class="nav-item active">Home</a>
+        <a href="diskusianggota.html" class="nav-item">Forum Diskusi</a>
+        <a href="Kanggota.html" class="nav-item">Daftar Kegiatan</a>
+        <a href="dokum.html" class="nav-item">Dokumentasi</a>
+    </div>
+    <div class="dashboard">
+        <div class="dashboard-card dashboard-header">
+            <h2>DASHBOARD</h2>
+            <div class="user-name">Mari Andari</div>
+            <div class="user-id">230030055</div>
+            <div class="user-role">Anggota</div>
+            <div class="user-period">Angkatan 2024/2025</div>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>Kegiatan Yang Diikuti : 2 <a href="#" class="view-more">View More</a></h3>
+            <div class="activity-card">
+                <div class="activity-icon" style="float: left; margin-right: 15px;">📅</div>
+                <h4>Public Speaking 101</h4>
+                <div class="activity-meta">13:00 - 15:00 WITA</div>
+                <div class="activity-meta">17 Juli 2025</div>
+                <div class="activity-location">Ruang Seminar Lt.3</div>
+                <div class="activity-speaker">Narasumber: Deni Ariawan</div>
+                <span class="activity-status status-ongoing">Ongoing</span>
+            </div>
+            <div class="activity-card">
+                <div class="activity-icon" style="float: left; margin-right: 15px;">📅</div>
+                <h4>Kewirausahaan Ma...</h4>
+                <div class="activity-meta">18:00 - 20:00 WITA</div>
+                <div class="activity-meta">05 Juni 2025</div>
+                <div class="activity-location">Online</div>
+                <div class="activity-speaker">Narasumber: Andriana Mh.</div>
+                <span class="activity-status status-join">Join</span>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>Pengunguman Terbaru <a href="#" class="view-more">View More</a></h3>
+            <div class="announcement-item">
+                <div class="announcement-icon">!</div>
+                <div class="announcement-content">
+                    <h4>Rapat Koordinasi Pengurus</h4>
+                    <p>Diberitahukan kepada seluruh pengurus bahwa akan diadakan rapat koordinasi untuk membahas program kerja bulan ini. Kehadiran wajib demi ketancaran kegiatan organisasi.</p>
+                </div>
+                <div class="announcement-time">9:41 AM</div>
+                <div class="announcement-arrow">▼</div>
+            </div>
+            <div class="announcement-item">
+                <div class="announcement-icon">!</div>
+                <div class="announcement-content">
+                    <h4>Pendaftaran Panitia Makrab</h4>
+                    <p>Dibuka pendaftaran panitia untuk kegiatan malam keakraban (makrab). Anggota yang berminat dapat mendaftar ke divisi acara sebelum 7 Juni 2025.</p>
+                </div>
+                <div class="announcement-time">9:41 AM</div>
+                <div class="announcement-arrow">▼</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function logout() {
+            localStorage.removeItem("loggedInRole");
+            window.location.href = "../index.html";
+        }
+    </script>
+</body>
+</html>

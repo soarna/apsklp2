@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Pengurus (Sekretaris)</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">G</div>
+            <div class="user-details">
+                <h3>Gandhi Pramana</h3>
+                <p>Pengurus (Sekretaris)</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="dashboardpengurus.html" class="nav-item active">Home</a>
+        <a href="diskusipengurus.html" class="nav-item">Forum Diskusi</a>
+        <a href="Kpengurus.html" class="nav-item">Kegiatan</a>
+        <a href="Dokumentasi.html" class="nav-item">Laporan</a>
+        <a href="keuangan.html" class="nav-item">Keuangan</a>
+        <a href="verpendaftar.html" class="nav-item">Anggota</a>
+    </div>
+
+    <div class="dashboard">
+        <div class="dashboard-card dashboard-header">
+            <h2>DASHBOARD</h2>
+            <div class="user-name">Gandhi Pramana</div>
+            <div class="user-id">230030086</div>
+            <div class="user-role">Pengurus (Sekretaris)</div>
+            <div class="user-period">Angkatan 2024/2025</div>
+            <div class="buttons-container">
+                <button class="btn"><a href="#">Rekap Tahunan</a></button>
+                <button class="btn"><a href="#">Pendaftar Baru</a></button>
+            </div>
+        </div>
+
+        <div class="dashboard-card stat-card">
+            <h3>Jumlah Kegiatan<br>Berlangsung</h3>
+            <div class="number">8</div>
+        </div>
+
+        <div class="dashboard-card stat-card">
+            <h3>Jumlah Anggota</h3>
+            <div class="number">58</div>
+        </div>
+
+        <div class="dashboard-card balance-card">
+            <h3>Saldo Kas</h3>
+            <div class="balance-amount">Rp 1.300.000</div>
+            <div style="border-top: 1px solid #eee; padding-top: 15px; margin-top: 15px;">
+                <h4>Transaksi Akhir</h4>
+                <div class="transaction-item">
+                    <span>+ Rp 10.000</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>Pengunguman Terbaru <a href="#" class="view-more">+ View More</a></h3>
+            <div class="announcement-item">
+                <div class="announcement-icon">!</div>
+                <div class="announcement-content">
+                    <h4>Rapat Koordinasi Pengurus</h4>
+                    <p>Diberitahukan kepada seluruh pengurus bahwa akan diadakan rapat koordinasi untuk membahas program kerja bulan ini. Kehadiran wajib demi ketancaran kegiatan organisasi.</p>
+                </div>
+                <div class="announcement-time">9:41 AM</div>
+                <div class="announcement-arrow">▼</div>
+            </div>
+            <div class="announcement-item">
+                <div class="announcement-icon">!</div>
+                <div class="announcement-content">
+                    <h4>Pendaftaran Panitia Makrab</h4>
+                    <p>Dibuka pendaftaran panitia untuk kegiatan malam keakraban (makrab). Anggota yang berminat dapat mendaftar ke divisi acara sebelum 7 Juni 2025.</p>
+                </div>
+                <div class="announcement-time">9:41 AM</div>
+                <div class="announcement-arrow">▼</div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>Kegiatan Terbaru <a href="#" class="view-more">View More</a></h3> <h1><a href>+</a></h1>
+            <div class="activity-item">
+                <div class="activity-icon">📅</div>
+                <div class="activity-details">
+                    <h4>Jadwal Piket Sekretariat Bulan Juni</h4>
+                    <p>12 Juni 2025</p>
+                </div>
+                <div class="activity-arrow">▼</div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">📅</div>
+                <div class="activity-details">
+                    <h4>Pelatihan Kepemimpinan Dasar (LKD)</h4>
+                    <p>7 Juni 2025</p>
+                </div>
+                <div class="activity-arrow">▼</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            localStorage.removeItem("loggedInRole");
+            window.location.href = "../index.html";
+        }
+    </script>
+</body>
+</html>

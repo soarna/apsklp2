@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">A</div>
+            <div class="user-details">
+                <h3>Ahmad Adi Pratama</h3>
+                <p>Admin</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="dashboardadmin.html" class="nav-item active">Home</a>
+        <a href="Pengurus.html" class="nav-item">Pengurus</a>
+        <a href="Pengguna.html" class="nav-item">Pengguna</a>
+    </div>
+
+    <div class="dashboard">
+        <div class="dashboard-card dashboard-header">
+            <h2>DASHBOARD</h2>
+            <div class="user-name">Ahmad Adi Pratama</div>
+            <div class="user-id">230030077</div>
+            <div class="user-role">Admin</div>
+            <div class="user-period">Angkatan 2024/2025</div>
+        </div>
+
+        <div class="dashboard-card stat-card">
+            <h3>Jumlah Kegiatan<br>Berlangsung</h3>
+            <div class="number">8</div>
+        </div>
+
+        <div class="dashboard-card stat-card">
+            <h3>Jumlah Pengurus</h3>
+            <div class="number">12</div>
+        </div>
+
+        <div class="dashboard-card stat-card">
+            <h3>Jumlah Pengguna</h3>
+            <div class="number">70</div>
+            <div class="label">Pengguna</div>
+        </div>
+
+        <div class="dashboard-card activities-card">
+            <h3>Kegiatan Terbaru <a href="#" class="view-more">View More</a></h3>
+            <div class="activity-item">
+                <div class="activity-icon">📅</div>
+                <div class="activity-details">
+                    <h4>Jadwal Piket Sekretariat Bulan Juni</h4>
+                    <p>12 Juni 2025</p>
+                </div>
+                <div class="activity-arrow">▼</div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon">📅</div>
+                <div class="activity-details">
+                    <h4>Pelatihan Kepemimpinan Dasar (LKD)</h4>
+                    <p>7 Juni 2025</p>
+                </div>
+                <div class="activity-arrow">▼</div>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="chart-title">Latensi Server (ms)</div>
+            <div class="chart">
+                <svg width="100%" height="160" viewBox="0 0 400 160">
+                    <polyline points="0,120 80,80 160,100 240,60 320,40" 
+                             fill="none" stroke="#4CAF50" stroke-width="3"/>
+                    <circle cx="0" cy="120" r="4" fill="#333"/>
+                    <circle cx="80" cy="80" r="4" fill="#4CAF50"/>
+                    <circle cx="160" cy="100" r="4" fill="#4CAF50"/>
+                    <circle cx="240" cy="60" r="4" fill="#333"/>
+                    <circle cx="320" cy="40" r="4" fill="#4CAF50"/>
+                </svg>
+                <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 12px; color: #666;">
+                    <span>12:00</span>
+                    <span>13:00</span>
+                    <span>14:00</span>
+                    <span>15:00</span>
+                    <span>16:00</span>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 15px;">
+                <button class="btn">Audit Log</button>
+                <button class="btn">Backup Data</button>
+                <a href="laporanadmin.html"><button class="btn">Report</button></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            localStorage.removeItem("loggedInRole");
+            window.location.href = "../index.html";
+        }
+    </script>
+</body>
+</html>

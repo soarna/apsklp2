@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIKOM - Sistem Kegiatan dan Organisasi Mahasiswa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #667eea;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-bar {
+            background: #667eea;
+            padding: 15px 30px;
+            display: flex;
+            gap: 50px;
+        }
+
+.nav-item {
+    display: inline-block; 
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: opacity 0.3s, background-color 0.3s;
+    padding: 8px 16px; 
+}
+
+.nav-item:hover,
+.nav-item.active {
+    opacity: 1;
+    background-color: #5468c2;
+}
+
+
+        .content {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 2rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+
+        .tab:not(.active) {
+            background: rgba(99, 102, 241, 0.2);
+            color: #6366f1;
+        }
+
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input, .form-group textarea, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .form-select {
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .image-preview {
+            margin-top: 1rem;
+        }
+
+        .preview-images {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .preview-item {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 2px solid #e5e7eb;
+        }
+
+        .preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-img {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-img:hover {
+            background: rgba(255, 0, 0, 1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .file-upload:hover {
+            border-color: #6366f1;
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .document-list {
+            display: none;
+        }
+
+        .document-list.active {
+            display: block;
+        }
+
+        .document-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: between;
+        }
+
+        .document-icon {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #333;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .document-info {
+            flex: 1;
+        }
+
+        .document-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: #333;
+        }
+
+        .document-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .document-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #333;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .icon-btn:hover {
+            background: #f3f4f6;
+        }
+
+        .dropdown-btn {
+            position: relative;
+        }
+
+        .photo-dropdown {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 1.5rem;
+            margin-top: 1rem;
+            margin-left: 3rem;
+            border-left: 3px solid #6366f1;
+        }
+
+        .photo-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .photo-item {
+            text-align: center;
+        }
+
+        .dropdown-photo {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            border: 2px solid #e5e7eb;
+            transition: transform 0.3s;
+        }
+
+        .dropdown-photo:hover {
+            transform: scale(1.05);
+            border-color: #6366f1;
+        }
+
+        .photo-caption {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">G</div>
+            <div class="user-details">
+                <h3>Gandhi Pramana</h3>
+                <p>Pengurus (Sekretaris)</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="dashboardpengurus.html" class="nav-item">Home</a>
+        <a href="diskusipengurus.html" class="nav-item">Forum Diskusi</a>
+        <a href="Kpengurus.html" class="nav-item">Kegiatan</a>
+        <a href="Dokumentasi.html" class="nav-item active">Laporan</a>
+        <a href="keuangan.html" class="nav-item">Keuangan</a>
+        <a href="verpendaftar.html" class="nav-item">Anggota</a>
+    </div>
+
+    <main class="content">
+        <div class="tabs">
+            <button class="tab" onclick="showTab('laporan-dokum')">Laporan&dokum</button>
+            <button class="tab" onclick="showTab('rekap-tahunan')">Rekap Tahunan</button>
+            <button class="tab active" onclick="showTab('unggah-laporan')">Unggah Laporan</button>
+            <button class="tab" onclick="showTab('unggah-dokumentasi')">Unggah Dokumentasi</button>
+        </div>
+
+        <!-- Rekap Tahunan -->
+        <div id="rekap-tahunan" class="document-list">
+            <h2 style="margin-bottom: 1.5rem; color: #333;">Daftar Laporan Tahunan</h2>
+            <p style="margin-bottom: 2rem; color: #666;">Pilih dan unduh laporan tahunan yang tersedia untuk keperluan dokumentasi atau arsip pribadi</p>
+            
+            <div class="document-item" style="background: #f8f9fa; border: 1px solid #e9ecef;">
+                <div class="document-icon" style="background: #6366f1; color: white; border-color: #6366f1;">📄</div>
+                <div class="document-info">
+                    <h3>Laporan Tahunan 2023</h3>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin: 0.5rem 0;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <span style="font-size: 0.9rem;">📅</span>
+                            <span style="font-size: 0.9rem; color: #666;">Tahun 2023</span>
+                        </div>
+                    </div>
+                    <p style="margin: 0.5rem 0; color: #333;">Laporan komprehensif aktivitas dan keuangan tahun 2023</p>
+                    <p style="margin: 0; color: #666; font-size: 0.85rem;">Ukuran: 2.5 MB</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem;">
+                        <span style="font-size: 0.85rem; color: #666;">Upload: 15 Januari 2024</span>
+                        <button class="btn btn-primary" style="padding: 0.5rem 1.5rem; font-size: 0.9rem; display: flex; align-items: center; gap: 0.5rem;">
+                            <span>⬇</span> Unduh PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Upload Laporan -->
+        <div id="upload-laporan-form" class="form-container">
+            <h2 style="margin-bottom: 1.5rem;">Laporan Kegiatan</h2>
+            
+            <div class="form-group">
+                <label>Nama Kegiatan*</label>
+                <input type="text" placeholder="Masukkan nama kegiatan" required>
+            </div>
+
+            <div class="form-group">
+                <label>Tanggal Kegiatan*</label>
+                <input type="date" placeholder="dd/mm/yy" required>
+            </div>
+
+            <div class="form-group">
+                <label>Jenis Kegiatan*</label>
+                <input type="text" placeholder="Masukkan Jenis Kegiatan" required>
+            </div>
+
+            <div class="form-group">
+                <label>Deskripsi Kegiatan*</label>
+                <textarea placeholder="Masukkan deskripsi lengkap kegiatan" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Lokasi Kegiatan*</label>
+                <input type="text" placeholder="Masukkan Lokasi Kegiatan" required>
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-primary">Simpan</button>
+                <button class="btn btn-secondary">BATAL</button>
+            </div>
+        </div>
+
+        <!-- Form Upload Dokumentasi -->
+        <div id="upload-dokum-form" class="form-container">
+            <h2 style="margin-bottom: 1.5rem;">Upload Dokumentasi</h2>
+            
+            <div class="form-group">
+                <label>Nama Laporan Kegiatan*</label>
+                <select class="form-select" required>
+                    <option value="">Pilih Laporan Kegiatan</option>
+                    <option value="raker">Laporan Kegiatan Rapat Kerja (Raker)</option>
+                    <option value="seminar">Laporan Kegiatan Seminar Nasional Mahasiswa</option>
+                    <option value="workshop">Laporan Kegiatan Workshop Teknologi</option>
+                    <option value="baksos">Laporan Kegiatan Bakti Sosial</option>
+                    <option value="studytour">Laporan Kegiatan Study Tour</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Foto Dokumentasi*</label>
+                <div class="file-upload" onclick="document.getElementById('file-input').click()">
+                    <input type="file" id="file-input" accept=".jpg,.jpeg,.png" multiple>
+                    <p>Klik Untuk Memilih Foto</p>
+                    <p style="font-size: 0.8rem; color: #666; margin-top: 0.5rem;">Format: JPG, PNG. Maksimal 10 MB</p>
+                </div>
+                
+                <!-- Preview Images -->
+                <div id="image-preview" class="image-preview" style="display: none;">
+                    <div class="preview-images">
+                        <div class="preview-item">
+                            <img src="https://via.placeholder.com/120x120/6366f1/ffffff?text=Foto+1" class="preview-img">
+                            <button type="button" class="remove-img" onclick="removeImage(0)">×</button>
+                        </div>
+                        <div class="preview-item">
+                            <img src="https://via.placeholder.com/120x120/8b5cf6/ffffff?text=Foto+2" class="preview-img">
+                            <button type="button" class="remove-img" onclick="removeImage(1)">×</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="btn btn-primary">Simpan</button>
+                <button class="btn btn-secondary">BATAL</button>
+            </div>
+        </div>
+
+        <!-- Daftar Dokumen -->
+        <div id="document-list" class="document-list active">
+            <div class="document-item">
+                <div class="document-icon">📄</div>
+                <div class="document-info">
+                    <h3>Laporan Kegiatan Rapat Kerja (Raker)</h3>
+                    <p>Rapat Organisasi</p>
+                    <p>7 Juni 2025</p>
+                </div>
+                <div class="document-actions">
+                    <div class="icon-btn">⬇</div>
+                    <div class="icon-btn">↓</div>
+                </div>
+            </div>
+
+            <div class="document-item">
+                <div class="document-icon">📄</div>
+                <div class="document-info">
+                    <h3>Laporan Kegiatan Seminar Nasional Mahasiswa</h3>
+                    <p>Seminar</p>
+                    <p>6 Juni 2025</p>
+                </div>
+                <div class="document-actions">
+                    <div class="icon-btn">⬇</div>
+                    <div class="icon-btn">↓</div>
+                </div>
+            </div>
+
+            <div class="document-item">
+                <div class="document-icon">📷</div>
+                <div class="document-info">
+                    <h3>Dokumentasi Kegiatan Rutin</h3>
+                    <p>4 Juni 2025</p>
+                </div>
+                <div class="document-actions">
+                    <div class="icon-btn">⬇</div>
+                    <div class="icon-btn dropdown-btn" onclick="togglePhotoDropdown()">↓</div>
+                </div>
+            </div>
+            
+            <!-- Photo Dropdown -->
+            <div id="photo-dropdown" class="photo-dropdown" style="display: none;">
+                <div class="photo-grid">
+                    <div class="photo-item">
+                        <img src="https://via.placeholder.com/150x150/6366f1/ffffff?text=Pembukaan" class="dropdown-photo">
+                        <p class="photo-caption">Pembukaan Kegiatan</p>
+                    </div>
+                    <div class="photo-item">
+                        <img src="https://via.placeholder.com/150x150/8b5cf6/ffffff?text=Presentasi" class="dropdown-photo">
+                        <p class="photo-caption">Sesi Presentasi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function showTab(tabName) {
+            document.querySelectorAll('.form-container, .document-list').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            if (tabName === 'laporan-dokum') {
+                document.getElementById('document-list').classList.add('active');
+                event.target.classList.add('active');
+            } else if (tabName === 'rekap-tahunan') {
+                document.getElementById('rekap-tahunan').classList.add('active');
+                event.target.classList.add('active');
+            } else if (tabName === 'unggah-laporan') {
+                document.getElementById('upload-laporan-form').classList.add('active');
+                event.target.classList.add('active');
+            } else if (tabName === 'unggah-dokumentasi') {
+                document.getElementById('upload-dokum-form').classList.add('active');
+                event.target.classList.add('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('unggah-laporan');
+            document.querySelector('[onclick="showTab(\'unggah-laporan\')"]').classList.add('active');
+        });
+
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const fileUpload = document.querySelector('.file-upload p');
+            const imagePreview = document.getElementById('image-preview');
+            
+            if (e.target.files.length > 0) {
+                fileUpload.textContent = `${e.target.files.length} file(s) dipilih`;
+                imagePreview.style.display = 'block';
+            } else {
+                fileUpload.textContent = 'Klik Untuk Memilih Foto';
+                imagePreview.style.display = 'none';
+            }
+        });
+
+        function removeImage(index) {
+            const previewItems = document.querySelectorAll('.preview-item');
+            if (previewItems[index]) {
+                previewItems[index].style.display = 'none';
+            }
+            
+            const visibleItems = Array.from(previewItems).filter(item => item.style.display !== 'none');
+            if (visibleItems.length === 0) {
+                document.getElementById('image-preview').style.display = 'none';
+                document.querySelector('.file-upload p').textContent = 'Klik Untuk Memilih Foto';
+            }
+        }
+
+        function togglePhotoDropdown() {
+            const dropdown = document.getElementById('photo-dropdown');
+            const dropdownBtn = document.querySelector('.dropdown-btn');
+            
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+                dropdownBtn.innerHTML = '↑';
+                dropdownBtn.style.background = '#6366f1';
+                dropdownBtn.style.color = 'white';
+            } else {
+                dropdown.style.display = 'none';
+                dropdownBtn.innerHTML = '↓';
+                dropdownBtn.style.background = 'white';
+                dropdownBtn.style.color = '#333';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('image-preview').style.display = 'block';
+        });
+
+        function logout() {
+            alert('Logout berhasil!');
+            // Redirect ke halaman login
+        }
+    </script>
+</body>
+</html>

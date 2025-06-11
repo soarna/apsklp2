@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIKOM - Sistem Kegiatan dan Organisasi Mahasiswa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #667eea;
+        }
+
+        .login-box {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #667eea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            opacity: 0.9;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #667eea;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .logo p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .user-details h3 {
+            font-size: 16px;
+            margin-bottom: 2px;
+        }
+
+        .user-details p {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .notification-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .nav-bar {
+            background: #667eea;
+            padding: 15px 30px;
+            display: flex;
+            gap: 50px;
+        }
+
+.nav-item {
+    display: inline-block; 
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    opacity: 0.8;
+    transition: opacity 0.3s, background-color 0.3s;
+    padding: 8px 16px; 
+}
+
+.nav-item:hover,
+.nav-item.active {
+    opacity: 1;
+    background-color: #5468c2;
+}
+
+
+        /* Dashboard Styles */
+        .dashboard {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-card {
+            background: white;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
+        }
+
+        .dashboard-header {
+            grid-column: 1 / -1;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 15px;
+            height: 100%;
+            background: #4CAF50;
+        }
+
+        .dashboard-header h2 {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .dashboard-header .user-name {
+            font-size: 24px;
+            margin-bottom: 3px;
+        }
+
+        .dashboard-header .user-id {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 3px;
+        }
+
+        .dashboard-header .user-role {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 3px;
+        }
+
+        .dashboard-header .user-period {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 0.8rem 1.5rem;
+            background: #e5e7eb;
+            color: #6b7280;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .tab.active {
+            background: #6366f1;
+            color: white;
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
+        }
+
+        .balance-card {
+            background: #10b981;
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 2rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .balance-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .balance-amount {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .transactions-section {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-number {
+            background: rgba(255,255,255,0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transactions-table th {
+            background: #6366f1;
+            color: white;
+            padding: 1rem;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .transactions-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .transactions-table tr:nth-child(even) {
+            background: #f9fafb;
+        }
+
+        .transaction-type {
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .income {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .expense {
+            background: #fecaca;
+            color: #991b1b;
+        }
+
+        .amount-positive {
+            color: #059669;
+            font-weight: 600;
+        }
+
+        .amount-negative {
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .monthly-summary {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .summary-card {
+            flex: 1;
+            padding: 2rem;
+            border-radius: 12px;
+            color: white;
+            text-align: center;
+        }
+
+        .income-card {
+            background: #6366f1;
+        }
+
+        .expense-card {
+            background: #6366f1;
+        }
+
+        .summary-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
+        }
+
+        .summary-amount {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .form-container {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .transaction-form {
+            flex: 1;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .form-header {
+            background: #6366f1;
+            color: white;
+            padding: 1rem;
+            margin: -2rem -2rem 2rem -2rem;
+            border-radius: 12px 12px 0 0;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .form-header.expense {
+            background: #ef4444;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #6366f1;
+            color: white;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+
+        .form-label.expense {
+            background: #ef4444;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #6366f1;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .save-btn {
+            background: #10b981;
+        }
+
+        .cancel-btn {
+            background: #ef4444;
+        }
+
+        .type-selector {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .type-btn {
+            padding: 2rem 4rem;
+            margin: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.2s;
+        }
+
+        .type-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .income-btn {
+            background: #6366f1;
+        }
+
+        .expense-btn {
+            background: #ef4444;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .monthly-summary {
+                flex-direction: column;
+            }
+
+            .form-container {
+                flex-direction: column;
+            }
+
+            .nav-menu {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <h1>SIKOM</h1>
+            <p>SISTEM KEGIATAN DAN ORGANISASI MAHASISWA</p>
+        </div>
+        <div class="user-info">
+            <div class="notification-icon">🔔</div>
+            <div class="user-avatar">G</div>
+            <div class="user-details">
+                <h3>Gandhi Pramana</h3>
+                <p>Pengurus (Sekretaris)</p>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="nav-bar">
+        <a href="dashboardpengurus.html" class="nav-item ">Home</a>
+        <a href="diskusipengurus.html" class="nav-item">Forum Diskusi</a>
+        <a href="Kpengurus.html" class="nav-item">Kegiatan</a>
+        <a href="Dokumentasi.html" class="nav-item">Laporan</a>
+        <a href="keuangan.html" class="nav-item active">Keuangan</a>
+        <a href="verpendaftar.html" class="nav-item">Anggota</a>
+    </div>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('ringkasan')">Ringkasan Keuangan</button>
+            <button class="tab" onclick="showTab('tambah')">Tambah Transaksi</button>
+            <button class="tab" onclick="showTab('riwayat')">Riwayat Transaksi</button>
+        </div>
+
+        <div id="ringkasan" class="content active">
+            <div class="balance-card">
+                <h3>Saldo Kas</h3>
+                <div class="balance-amount">Rp. 1.300.000</div>
+            </div>
+
+            <div class="transactions-section">
+                <div class="section-header">
+                    Transaksi Terbaru
+                </div>
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Deskripsi</th>
+                            <th>Kategori</th>
+                            <th>Tipe</th>
+                            <th>Jumlah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>3 Juni 2025</td>
+                            <td>Kas Anggota</td>
+                            <td>Iuran</td>
+                            <td><span class="transaction-type income">Pemasukan</span></td>
+                            <td class="amount-positive">+ Rp. 10.000</td>
+                        </tr>
+                        <tr>
+                            <td>3 Juni 2025</td>
+                            <td>Kas Anggota</td>
+                            <td>Iuran</td>
+                            <td><span class="transaction-type income">Pemasukan</span></td>
+                            <td class="amount-positive">+ Rp. 5.000</td>
+                        </tr>
+                        <tr>
+                            <td>3 Juni 2025</td>
+                            <td>Kas Anggota</td>
+                            <td>Iuran</td>
+                            <td><span class="transaction-type income">Pemasukan</span></td>
+                            <td class="amount-positive">+ Rp. 15.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="monthly-summary">
+                <div class="summary-card income-card">
+                    <h3>Pemasukan Bulan Ini</h3>
+                    <div class="summary-amount">Rp. 60.000</div>
+                </div>
+                <div class="summary-card expense-card">
+                    <h3>Pengeluaran Bulan Ini</h3>
+                    <div class="summary-amount">Rp. 125.000</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tambah" class="content">
+            <div class="type-selector">
+                <button class="type-btn income-btn" onclick="showForm('income')">PEMASUKAN</button>
+                <button class="type-btn expense-btn" onclick="showForm('expense')">PENGELUARAN</button>
+            </div>
+
+            <div id="incomeForm" class="form-container" style="display: none;">
+                <div class="transaction-form">
+                    <div class="form-header">PEMASUKAN</div>
+                    <div class="form-group">
+                        <label class="form-label">Tanggal Pemasukan</label>
+                        <input type="date" class="form-input" placeholder="Ketik Disini">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Deskripsi Pemasukan</label>
+                        <input type="text" class="form-input" placeholder="Ketik Disini">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Kategori Pemasukan</label>
+                        <select class="form-input">
+                            <option>Ketik Disini</option>
+                            <option>Iuran</option>
+                            <option>Donasi</option>
+                            <option>Sponsor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tipe Pemasukan</label>
+                        <select class="form-input">
+                            <option>Ketik Disini</option>
+                            <option>Tunai</option>
+                            <option>Transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Jumlah Pemasukan</label>
+                        <input type="number" class="form-input" placeholder="Ketik Disini">
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn save-btn">SIMPAN</button>
+                    <button class="action-btn cancel-btn">BATAL</button>
+                </div>
+            </div>
+
+            <div id="expenseForm" class="form-container" style="display: none;">
+                <div class="transaction-form">
+                    <div class="form-header expense">PENGELUARAN</div>
+                    <div class="form-group">
+                        <label class="form-label expense">Tanggal Pemasukan</label>
+                        <input type="date" class="form-input" placeholder="Ketik Disini">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label expense">Deskripsi Pemasukan</label>
+                        <input type="text" class="form-input" placeholder="Ketik Disini">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label expense">Kategori Pemasukan</label>
+                        <select class="form-input">
+                            <option>Ketik Disini</option>
+                            <option>Konsumsi</option>
+                            <option>Peralatan</option>
+                            <option>Transport</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label expense">Tipe Pemasukan</label>
+                        <select class="form-input">
+                            <option>Ketik Disini</option>
+                            <option>Tunai</option>
+                            <option>Transfer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label expense">Jumlah Pemasukan</label>
+                        <input type="number" class="form-input" placeholder="Ketik Disini">
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn save-btn">SIMPAN</button>
+                    <button class="action-btn cancel-btn">BATAL</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="riwayat" class="content">
+            <div class="transactions-section">
+                <div class="section-header">
+                    Transaksi Terbaru
+                    <div class="page-number">06</div>
+                </div>
+                <table class="transactions-table">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Deskripsi</th>
+                            <th>Kategori</th>
+                            <th>Tipe</th>
+                            <th>Jumlah</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>3 Juni 2025</td>
+                            <td>Kas Anggota</td>
+                            <td>Iuran</td>
+                            <td><span class="transaction-type income">Pemasukan</span></td>
+                            <td class="amount-positive">+ Rp. 10.000</td>
+                        </tr>
+                        <tr>
+                            <td>3 Juni 2025</td>
+                            <td>Kas Anggota</td>
+                            <td>Iuran</td>
+                            <td><span class="transaction-type income">Pemasukan</span></td>
+                            <td class="amount-positive">+ Rp. 5.000</td>
+                        </tr>
+                        <tr>
+                            <td>3 Juni 2025</td>
+                            <td>Kas Anggota</td>
+                            <td>Iuran</td>
+                            <td><span class="transaction-type income">Pemasukan</span></td>
+                            <td class="amount-positive">+ Rp. 15.000</td>
+                        </tr>
+                        <tr>
+                            <td>2 Juni 2025</td>
+                            <td>Sewa HT</td>
+                            <td>Peralatan</td>
+                            <td><span class="transaction-type expense">Pengeluaran</span></td>
+                            <td class="amount-negative">- Rp. 115.000</td>
+                        </tr>
+                        <tr>
+                            <td>2 Juni 2025</td>
+                            <td>Kas Anggota</td>
+                            <td>Iuran</td>
+                            <td><span class="transaction-type income">Pemasukan</span></td>
+                            <td class="amount-positive">+ Rp. 20.000</td>
+                        </tr>
+                        <tr>
+                            <td>1 Juni 2025</td>
+                            <td>Air Putih</td>
+                            <td>Konsumsi</td>
+                            <td><span class="transaction-type expense">Pengeluaran</span></td>
+                            <td class="amount-negative">- Rp. 10.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            const contents = document.querySelectorAll('.content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+
+ 
+            event.target.classList.add('active');
+        }
+
+        function showForm(type) {
+            document.getElementById('incomeForm').style.display = 'none';
+            document.getElementById('expenseForm').style.display = 'none';
+
+            if (type === 'income') {
+                document.getElementById('incomeForm').style.display = 'flex';
+            } else {
+                document.getElementById('expenseForm').style.display = 'flex';
+            }
+        }
+                function logout() {
+            localStorage.removeItem("loggedInRole");
+            window.location.href = "../index.html";
+        }
+    </script>
+</body>
+</html>
